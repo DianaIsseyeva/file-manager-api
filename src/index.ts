@@ -6,17 +6,18 @@ import mongoose from 'mongoose';
 import { typeDefs } from './schema';
 dotenv.config();
 // @ts-ignore
-
 import { graphqlUploadExpress } from 'graphql-upload';
+import { resolvers } from './resolvers';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-app.use(graphqlUploadExpress()); // для загрузки файлов
+app.use(graphqlUploadExpress());
 
 const startServer = async () => {
   const apolloServer = new ApolloServer({
     typeDefs,
+    resolvers,
   });
 
   await apolloServer.start();
