@@ -1,5 +1,6 @@
 // @ts-ignore
 import { graphqlUploadExpress } from 'graphql-upload';
+import { FileModel } from './models/File';
 import { uploadToS3 } from './utils/uploadToS3';
 
 interface FileUpload {
@@ -29,10 +30,17 @@ export const resolvers = {
 
       const fileBuffer = Buffer.concat(chunks);
 
-      // Отправка в S3
       const uploaded = await uploadToS3(fileBuffer, filename, mimetype);
 
-      return uploaded;
+      const savedFile = await FileModel.create({
+        filename,
+        mimetype,
+        size: fileBuffer.length,
+        key: uploaded.key,
+        url: uploaded.url,
+      });
+
+      return savedFile;
     },
   },
 };

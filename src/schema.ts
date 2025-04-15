@@ -4,14 +4,17 @@ export const typeDefs = gql`
   scalar Upload
 
   type FileMetadata {
+    _id: ID!
     filename: String!
     url: String!
     mimetype: String!
     size: Int!
+    uploadedAt: String
   }
 
   type Query {
     hello: String!
+    getFiles: [FileMetadata!]!
   }
 
   type Mutation {
