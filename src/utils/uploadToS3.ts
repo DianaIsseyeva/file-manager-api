@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
@@ -17,7 +17,6 @@ export async function uploadToS3(fileBuffer: Buffer, originalName: string, mimet
     Key: `uploads/${filename}`,
     Body: fileBuffer,
     ContentType: mimetype,
-    ACL: 'public-read',
   };
 
   const result = await s3.upload(uploadParams).promise();
